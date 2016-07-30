@@ -36,12 +36,6 @@ bool searchZeros(array a, int b, int e, int sum, int size)
     int prev = pivo - 1;
     int next = pivo + 1;
 
-    /*  printf ("pivo: %d\n", pivo);
-     *  printf ("size: %d\n", size);
-     *  printf ("valor do pivo: %d\n", a[pivo]);
-     *  printf ("valor do size: %d\n", a[size]);
-     *  printf ("soma ate agr: %d\n", sum);
-    */
     //achou o pivo como 0
     if (pivo == 0)
     {
@@ -56,11 +50,8 @@ bool searchZeros(array a, int b, int e, int sum, int size)
     {
         if (a[pivo] == 0)
         {
-            //printf("entrouuuuuu\n");
-
             if (a[prev] == 1)
             {
-                //printf ("entrou aqui\n");
                 sum += (size - pivo) + 1;
                 printf ("%d\n", sum);
                 return true;
@@ -68,7 +59,6 @@ bool searchZeros(array a, int b, int e, int sum, int size)
             }
             else
             {
-                //printf("veio aki");
                 //chama de novo a funcao pra o array da esquerda (pra achar o primeiro 0)
                 sum += (size - pivo) + 1;
                 searchZeros(a, 0, prev, sum, size);
@@ -77,11 +67,8 @@ bool searchZeros(array a, int b, int e, int sum, int size)
         }
         else if (a[pivo] == 1)   //achou o pivo como 1
         {
-            //printf("gnt entro aq\n");
-
             if (a[next] == 0)
             {
-                //printf ("entrou aki\n");
                 sum += (size - next) + 1;
                 printf ("%d\n", sum);
                 return true;
@@ -89,7 +76,6 @@ bool searchZeros(array a, int b, int e, int sum, int size)
             else
             {
                 //chama a funcao pra o lado direito do array (pois antes so vai ter 1)
-                //printf ("entrou aqueee\n");
                 searchZeros(a, next, size, sum, size);
             }
 

@@ -42,39 +42,26 @@ int searchMinimumElement(array a, int b, int e, int size)
         {
             minimum = a[pivo];
         }
-        return minimum;
-        //printf ("min: %d\n", minimum);
     }
-    /*if (b == e)
-    {
-        return minimum;
-    }*/
 
-    if (pivo > 0 && pivo < size - 1)
+    else if (pivo > 0 && pivo < size - 1)
     {
-        if(a[pivo] < a[prev] && a[pivo] < a[next])
+        if (a[pivo] < a[prev] && a[pivo] < a[next])
         {
-            minimum = a[pivo];
-            //return minimum;
+            if (a[pivo] <= minimum)
+            {
+                minimum = a[pivo];
+            }
         }
-
-        else if (a[pivo] > a[prev] && a[pivo] < a[next])
+        else if(a[pivo] < a[e])
         {
             return searchMinimumElement(a, b, prev, size);
-            return searchMinimumElement(a, next, e, size);
         }
 
-        /*else if (a[pivo] > a[prev] && a[pivo] > a[next])
-
+        else
         {
-            printf ("sup\n");
-            printf ("next: %d\n", a[next]);
-            if (a[next] <= minimum)
-            {
-                minimum = a[next];
-            }
-            printf ("minimo: %d\n", minimum);
-        }*/
+            return searchMinimumElement(a, next, e, size);
+        }
     }
     return minimum;
 }
