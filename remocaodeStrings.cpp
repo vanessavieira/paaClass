@@ -2,14 +2,12 @@
 using namespace std;
 
 vector<string> results;
-vector<int> groups_index_i;
-vector<int> groups_index_j;
+struct indexes {
+    int groups_index_i;
+    int groups_index_j;
+};
 
-int i, j;
 
-int dp(string n)
-{
-}
 
 int searchString(vector<string> results, string N)
 {
@@ -26,54 +24,89 @@ int searchString(vector<string> results, string N)
 
 }
 
-int findGroup(string N)
+string concatenate(string n, indexes indices)
 {
+    string temp;
+
+    for (int i = 0; i < indices.groups_index_i; i++)
+    {
+        temp.push_back(n[i]);
+    }
+    for (int j = indices.groups_index_j + 1; j < n.length(); j++)
+    {
+        temp.push_back(n[j]);
+    }
+    cout << "concatenado: " << temp << "\n";
+    return temp;
+
+  //TOP
+}
+
+vector<indexes> findGroup(string N)
+{
+    vector<indexes> indices;
+    indexes new_index;
+
     int j = 0;
     int k = 0;
 
-    for (int i = 0; i < N.size(); i++)
+    for (int i = 0; i < N.length(); ++i)
     {
         if (N[i] != N[j])
         {
             k = i - 1;
-            groups_index_i.push_back(j);
-            groups_index_j.push_back(k);
+            if (k - j >= 1)
+            {
+                new_index.groups_index_i = j;
+                new_index.groups_index_j = k;
+                indices.push_back(new_index);
+            }
             j = i;
         }
     }
-    for (int i = 0; i < N.length(); i++)
-    {
-        for (int v = groups_index_i[i]; v < groups_index_j[i]; v++)
-        {
-            cout << groups_index_i[v] << " " << groups_index_j[v];
-            return 1;
-        }
-    }
+
+    return indices;
+}
+
+
+bool backtracking(string n)
+{
+  // TODO AFTER: VERIFICAR SE JA NAO TEM RESPOSTA NO DP
+  // CASO VERDADEIRO: busca o resultado no array
+  // CASO FALSO: calcula e faz isso aqui de baixo \/
+
+  vector<indexes> indices = findGroup(n);
+  bool result = false;
+
+  for (int i = 0; i < indices.size(); i++) {
+    // remove a substring e adiciona
+    string nova_string = concatenate(n, indices[i]);
+    result = result || backtracking(nova_string);
+  }
+
+  // CASO O RESULTADO SEJA VERDADEIRO, ADICIONA STRING NO RESULTS
+  return result;
 }
 
 int main()
 {
     int T;
-    string N;
-    string space;
-
     scanf("%d", &T);
     getchar();
 
+
     while (T--)
     {
+        string N;
         getline(cin, N);
 
-        //results.push_back(N);
-        findGroup(N);
+		  bool final_result = backtracking(N);
 
-        for (int i = 0; i < results.size(); i++)
-            cout << results[i];
-        cout << endl;
-
-//        for ( int i = 0; i < N.length(); i++)
-//            cout << N[i];
-//        cout << endl;
+      if (final_result) {
+        cout << 1 << endl;
+      } else {
+        cout << 0 << endl;
+      }
     }
     return 0;
 }
